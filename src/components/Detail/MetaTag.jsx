@@ -4,17 +4,13 @@ import { Helmet } from 'react-helmet-async';
 import { useSelectCar } from '../../context/CarContext';
 import comma from '../../utils/comma';
 
-const MetaTag = () => {
-  const { id } = useParams();
-  const getSelectCarInfo = useSelectCar();
-  const carData = getSelectCarInfo(id)[0];
+const MetaTag = ({carData}) => {
   const title = carData.attribute.brand + carData.attribute.name;
   const url = window.location.href;
   const description = '월' + comma(carData.amount) + '원부터';
   const keywords = '알티모빌리티';
 
   return (
-    carData && (
       <Helmet>
         <title>{title}</title>
 
@@ -34,7 +30,6 @@ const MetaTag = () => {
 
         <link rel="canonical" href={url} />
       </Helmet>
-    )
   );
 };
 
