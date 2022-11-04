@@ -56,7 +56,7 @@
   "reactSnap": {
     "source": "build",
     "include": [
-      "/", "/detail/*"
+      "/", "/detail"
     ],
     "puppeteerArgs": [
       "--no-sandbox",
