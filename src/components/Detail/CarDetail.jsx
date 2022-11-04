@@ -21,7 +21,7 @@ const CarDetail = () => {
   ) : (
     carData && (
       <>
-        <MetaTag carData={carData}/>
+        <MetaTag carData={carData} />
         <StCarImage src={carData.attribute?.imageUrl} />
         <StTitle>
           <StBrand>{carData.attribute?.brand}</StBrand>
