@@ -70,6 +70,11 @@ table {
   margin-left: auto;
   margin-right: auto;
 }
+
+a{
+  color:inherit;
+  text-decoration: none;
+}
 `;
 
 export default GlobalStyle;
