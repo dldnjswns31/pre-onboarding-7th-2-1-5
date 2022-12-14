@@ -1,24 +1,41 @@
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useCar, useLoding } from '../../../context/CarContext';
-import comma from '../../../utils/comma';
-import CardItem from './CardItem';
-import Guide from '../../common/Guide';
-import { CAR_TYPE, CAR_FUEL_TYPE } from '../../../utils/carAttribute';
+import { useActiveCategory, useCar, useSetCar } from '../../../context/CarContext';
+import { CAR_TYPE, CAR_FUEL_TYPE, CAR_CATEGORY } from '../../../utils/carAttribute';
 import getKeyByValue from '../../../utils/getKeyByValue';
+import comma from '../../../utils/comma';
+import apis from '../../../apis/apis';
+import Guide from '../../common/Guide';
+import CardItem from './CardItem';
 
-const CardList = () => {
+const CardList = ({ category }) => {
+  const [isLoading, setIsLoading] = useState(true);
+
   const navigate = useNavigate();
-  const isLoding = useLoding();
-  const CardList = useCar();
+
+  const carList = useCar();
+  const { activeIndex } = useActiveCategory();
+  const changeCarList = useSetCar();
+
+  useEffect(() => {
+    if (category === CAR_CATEGORY[activeIndex]) {
+      setIsLoading(true);
+      (async () => {
+        const data = await apis.getCarList('segment', CAR_CATEGORY[activeIndex]);
+        changeCarList(data);
+        setIsLoading(false);
+      })();
+    }
+  }, [activeIndex]);
 
   const handleClick = (id) => {
     navigate(`/detail/${id}`);
   };
 
-  return isLoding ? (
+  return isLoading ? (
     <Guide text="불러오는 중" />
-  ) : CardList.length > 0 ? (
-    CardList.map((car) => {
+  ) : carList.length > 0 ? (
+    carList.map((car) => {
       return (
         <li className="cardList" key={car.id} onClick={() => handleClick(car.id)}>
           <CardItem

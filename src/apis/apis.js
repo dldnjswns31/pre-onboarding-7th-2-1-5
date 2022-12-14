@@ -1,16 +1,11 @@
 import axiosInstance from '../utils/axios';
 
 const apis = {
-  getCarList: async () => {
-    const { data } = await axiosInstance();
-    return data.payload;
-  },
-  getFilteredCarList: async (filter, condition) => {
+  getCarList: async (filter, condition) => {
     if (condition === '전체') {
       const { data } = await axiosInstance();
       return data.payload;
     }
-
     const { data } = await axiosInstance({
       params: {
         [filter]: condition,

@@ -1,21 +1,20 @@
 import { useEffect, useState } from 'react';
-import { useActiveCategory, useFilter } from '../../../context/CarContext';
-import CategoryTag from './CategoryTag';
+import { useActiveCategory } from '../../../context/CarContext';
 import { CAR_CATEGORY, CAR_TYPE } from '../../../utils/carAttribute';
 import getKeyByValue from '../../../utils/getKeyByValue';
+import CategoryTag from './CategoryTag';
 
-const CategoryFilter = () => {
-  const getCategoryCarInfo = useFilter();
-  const { activeIndex, activeCategory } = useActiveCategory();
+const CategoryFilter = ({ swiper }) => {
+  const { activeIndex, changeCategory } = useActiveCategory();
   const [selected, SetSelected] = useState(0);
 
   const handleOnclick = (e) => {
     SetSelected(e.target.id);
+    swiper.slideTo(e.target.id);
   };
 
   useEffect(() => {
-    activeCategory(selected);
-    getCategoryCarInfo('segment', CAR_CATEGORY[selected]);
+    changeCategory(selected);
   }, [selected]);
 
   return CAR_CATEGORY.map((category, index) => {

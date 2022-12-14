@@ -1,7 +1,7 @@
 import styled from 'styled-components';
+import { useLocation, useNavigate } from 'react-router-dom';
 import color from '../../styles/color';
 import { BackIcon } from '../../assets/BackIcon';
-import { useLocation, useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const { pathname: path } = useLocation();

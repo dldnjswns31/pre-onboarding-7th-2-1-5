@@ -1,30 +1,31 @@
+import { useState } from 'react';
+import styled from 'styled-components';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-import { useActiveCategory, useFilter } from '../../../context/CarContext';
+import { useActiveCategory } from '../../../context/CarContext';
 import { CAR_CATEGORY } from '../../../utils/carAttribute';
 import Category from '../Category/Category';
 import CardList from './CardList';
-import styled from 'styled-components';
 
 const CardSlide = () => {
-  const { activeCategory } = useActiveCategory();
-  const getCategoryCarInfo = useFilter();
+  const [swiper, setSwiper] = useState(null);
+  const { changeCategory } = useActiveCategory();
 
   return (
     <div>
-      <Category />
+      <Category swiper={swiper} />
       <Swiper
         className="swiper-container"
+        onSwiper={setSwiper}
         onActiveIndexChange={({ realIndex }) => {
-          activeCategory(realIndex);
-          getCategoryCarInfo('segment', CAR_CATEGORY[realIndex]);
+          changeCategory(realIndex);
         }}
       >
-        {CAR_CATEGORY.map((_, index) => {
+        {CAR_CATEGORY.map((category, index) => {
           return (
             <SwiperSlide key={`swiper-slide-${index}`}>
               <StCardWrapper>
-                <CardList />
+                <CardList category={category} />
               </StCardWrapper>
             </SwiperSlide>
           );

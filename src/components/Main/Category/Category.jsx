@@ -2,10 +2,10 @@ import styled from 'styled-components';
 import color from '../../../styles/color';
 import CategoryFilter from './CategoryFilter';
 
-const Category = () => {
+const Category = ({ swiper }) => {
   return (
     <StCategory>
-      <CategoryFilter />
+      <CategoryFilter swiper={swiper} />
     </StCategory>
   );
 };

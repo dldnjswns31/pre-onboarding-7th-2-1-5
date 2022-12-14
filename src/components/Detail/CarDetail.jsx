@@ -1,22 +1,35 @@
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { useSelectCar, useLoding } from '../../context/CarContext';
+import { useCar, useSetCar } from '../../context/CarContext';
 import comma from '../../utils/comma';
 import conversionDate from '../../utils/conversionDate';
-import ListHeader from './ListHeader';
-import ListContent from './ListContent';
-import Guide from '../common/Guide';
 import { CAR_TYPE, CAR_FUEL_TYPE } from '../../utils/carAttribute';
 import getKeyByValue from '../../utils/getKeyByValue';
+import apis from '../../apis/apis';
+import Guide from '../common/Guide';
 import MetaTag from './MetaTag';
+import ListHeader from './ListHeader';
+import ListContent from './ListContent';
 
 const CarDetail = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
-  const isLoding = useLoding();
-  const getSelectCarInfo = useSelectCar();
-  const carData = getSelectCarInfo(id)[0];
+  const carList = useCar();
+  const changeCarList = useSetCar();
+  const carData = carList.find((car) => String(car.id) === id);
 
-  return isLoding ? (
+  useEffect(() => {
+    if (carList.length === 0) {
+      (async () => {
+        const data = await apis.getCarList();
+        changeCarList(data);
+      })();
+    }
+    setIsLoading(false);
+  }, []);
+
+  return isLoading ? (
     <Guide text="불러오는 중" />
   ) : (
     carData && (
